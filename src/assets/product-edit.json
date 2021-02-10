@@ -1,0 +1,21 @@
+{
+    "data": [    {
+        "id": "602244f69a76eea5d2e87219",
+        "profilePicture": "https://image.flaticon.com/icons/png/512/475/475283.png",
+        "placeOfBirth": "Pakistan",
+        "references": null,
+        "localized": {
+            "en": {
+                "firstName": "Agha",
+                "lastName": "Khan",
+                "fullName": "Agha Khan"
+            },
+            "ar": {
+                "firstName": "آغَا",
+                "lastName": "عظيم",
+                "fullName": "آغا عظيم"
+            }
+        }
+    }
+    ]
+}

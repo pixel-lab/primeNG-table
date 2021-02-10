@@ -1,0 +1,24 @@
+.mr-1 {
+    margin-right: 1em;
+}  
+.border {
+    padding: 1em;
+    border:1px solid #ddd;
+}
+.mb-1{
+    margin-bottom: 1em;
+} .h2{
+    font-size:1.5em
+}
+.d-block {
+    display: block;
+}
+.text-bold {
+    font-weight: bold;
+}
+.d-block {
+    display: block;
+}
+.f-height {
+    min-height: 39px;
+}

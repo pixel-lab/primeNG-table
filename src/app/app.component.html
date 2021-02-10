@@ -1,0 +1,159 @@
+<p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"
+            (click)="openNew()"></button>
+
+    </ng-template>
+
+
+</p-toolbar>
+
+
+<p-table #dt [value]="products" dataKey="id" [rows]="10" [paginator]="true" 
+[globalFilterFields]="['firstname','lastname']"
+ [rowHover]="true" >
+ <ng-template pTemplate="caption">
+    <div class="p-d-flex p-ai-center p-jc-between">
+        <h5 class="p-m-0">&nbsp;</h5>
+        <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+        </span>
+    </div>
+</ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            
+            <th style="width: 3rem"></th>
+            <th pSortableColumn="Image">Image  <p-sortIcon field="Image"></p-sortIcon></th>
+            <th pSortableColumn="firstname">First Name <p-sortIcon field="firstname"></p-sortIcon>
+            </th>
+            <th  pSortableColumn="lastname">Last Name  <p-sortIcon field="lastname"></p-sortIcon></th>
+            
+            <th pSortableColumn="firstname"> Full Name <p-sortIcon field="firstname"></p-sortIcon>
+            </th>
+            <th pSortableColumn="action" style="width: 200px"> 
+                
+            </th>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-expanded="expanded">
+        <tr>
+            <td>
+                <button type="button" pButton pRipple [pRowToggler]="product"
+                    class="p-button-text p-button-rounded p-button-plain"
+                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+            </td>
+            <td><img width="100" class="p-shadow-4" src="{{product.profilePicture}}" /></td>            
+            <td>{{product.firstName}}</td>
+            <td>{{product.lastName}}</td>            
+            <td>{{product.fullName}}</td>
+            <td>
+                <button pButton class="mr-1" type="button" icon="pi pi-pencil" (click)="editMainTable(product)"></button>
+                <button pButton type="button" icon="pi pi-times-circle" (click)="deleteMainTable(product)"></button>
+            </td>
+            
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="rowexpansion" let-product>
+        <tr>
+            <td colspan="6">
+                <div class="p-p-3">
+                    <p-table [value]="product.localized" dataKey="id">
+                        <ng-template pTemplate="header">
+        <tr>
+
+            <th pSortableColumn="selectedLanguage.name">Language <p-sortIcon field="selectedLanguage.name"></p-sortIcon>
+            </th>
+            <th pSortableColumn="Innerfirstname">First Name <p-sortIcon field="Innerfirstname"></p-sortIcon>
+            </th>
+            <th pSortableColumn="Innerlastname">Last Name <p-sortIcon field="Innerlastname"></p-sortIcon>
+            </th>
+            <th pSortableColumn="Innerfirstname">Full Name <p-sortIcon field="Innerfirstname"></p-sortIcon>
+            </th>
+            <!-- <th style="width: 8rem"></th> -->
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-localized>
+        <tr>
+
+            <td>{{localized.language}}</td>
+            <td>{{localized.firstName}}</td>
+            <td>{{localized.lastName}}</td>
+            <td>{{localized.fullName}}</td>
+           
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="6">There are no order for this product yet.</td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>
+</td>
+</tr>
+</ng-template>
+</p-table>
+
+
+<p-dialog [(visible)]="productDialog" [style]="{width: '60%'}" header="Person details " [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col-4">
+                <label for="name">First Name</label>
+                <input type="text" pInputText id="name" [(ngModel)]="product.firstname" required autofocus />
+                <small class="p-invalid" *ngIf="submitted && !product.firstname">Name is required.</small>
+            </div>
+            <div class="p-field p-col-4">
+                <label for="name">Last Name</label>
+                <input type="text" pInputText id="name" [(ngModel)]="product.lastname" required autofocus />
+                <small class="p-invalid" *ngIf="submitted && !product.lastname">Name is required.</small>
+            </div>
+            <div class="p-field p-col-4">
+                <label for="name">Full Name</label>
+                <span pInputText id="fullname" class="d-block f-height">{{product.firstname}} {{product.lastname}}</span>
+              
+                
+            </div>
+        </div>
+        <div class="p-field ">
+            <div class="border">
+                <label class="mb-1 h2 d-block text-bold">Translation</label>
+                <div class="p-formgrid p-grid" *ngFor="let user of users; let i = index;">
+                    <div class="p-field p-col-3">
+                        <label for="name">Language </label>
+                        <p-dropdown [options]="users[i].language" [(ngModel)]="users[i].selectedLanguage" optionLabel="name"></p-dropdown>                        
+                    </div>
+                    <div class="p-field p-col-2">
+                        <label for="name">First Name</label>
+                        <input type="text" pInputText id="name" [(ngModel)]="users[i].firstname" required autofocus />                        
+                    </div>
+                    <div class="p-field p-col-2">
+                        <label for="name">Last Name</label>
+                        <input type="text" pInputText id="name" [(ngModel)]="users[i].lastname"  required autofocus />                        
+                    </div>
+                    <div class="p-field p-col-2">
+                        <label for="name">Full Name</label>
+                        <span pInputText id="fullname" class="d-block f-height">{{users[i].firstname}} {{users[i].lastname}}</span>
+                      
+                        
+                    </div>
+                    <div class="p-field p-col-3">
+                        <label for="name" [style]="{width:'100%'}">&nbsp;</label>
+                        <button [disabled]="setLang.length <= 1" pButton  class="mr-1" type="button" icon="pi pi-plus-circle" (click)="addRow(i)"></button>
+                        <button [disabled]="setLang.length <= 1" pButton type="button" icon="pi pi-times-circle" (click)="deleteRow(i)"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+    </ng-template>
+</p-dialog>
