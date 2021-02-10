@@ -86,8 +86,11 @@ export class AppComponent {
         this.submitted = false;
     }
     saveProduct() {
-        debugger;
-       this.submitted = true;
+        this.submitted = true;
+        if(!this.product.firstname || !this.product.lastname || !this.users[0].firstname || !this.users[0].lastname){
+            return false;
+        }
+      
        this.product = {
         "id": this.product.id,
         "profilePicture": "https://images-na.ssl-images-amazon.com/images/G/01/digital/video/hero/Movies/2012_NewFallTitles/TheDictator_8926700-35693-001._V390128733_SX1080_.jpg",
@@ -115,15 +118,13 @@ export class AppComponent {
             }  
             else {
                 let manupulateArr = [];
-                this.products = this.products.map(i => {
-                    
-                    if(i.id === this.product.id){
-                        debugger;
+                this.products = this.products.map(i => {                    
+                    if(i.id === this.product.id){                        
                         manupulateArr.push(this.product);
                         i = this.dataManupulate(manupulateArr)[0];
                     }
                     return i;
-                } )
+                });
             }
             this.userDynamic = { firistname: "", lastname: "", language: this.setLang, selectedLanguage:this.setLang[0]  };
             this.users=[this.userDynamic];

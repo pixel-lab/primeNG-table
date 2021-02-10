@@ -22,3 +22,6 @@
 .f-height {
     min-height: 39px;
 }
+.p-invalid {
+    color: red
+}

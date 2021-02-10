@@ -2,21 +2,16 @@
     <ng-template pTemplate="left">
         <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"
             (click)="openNew()"></button>
-
     </ng-template>
-
-
 </p-toolbar>
-
-
 <p-table #dt [value]="products" dataKey="id" [rows]="10" [paginator]="true"
-    [globalFilterFields]="['firstname','lastname']" [rowHover]="true">
+    [globalFilterFields]="['fullName']" [rowHover]="true">
     <ng-template pTemplate="caption">
         <div class="p-d-flex p-ai-center p-jc-between">
             <h5 class="p-m-0">&nbsp;</h5>
             <span class="p-input-icon-left">
                 <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="filterGlobal($event.target.value, 'contains')"
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
                     placeholder="Search..." />
             </span>
         </div>
@@ -25,9 +20,12 @@
         <tr>
             <th style="width: 3rem"></th>
             <th>Image </th>
-            <th pSortableColumn="firstName">First Name <p-sortIcon field="firstname"></p-sortIcon></th>
-            <th pSortableColumn="lastName">Last Name <p-sortIcon field="lastname"></p-sortIcon></th>
-            <th pSortableColumn="fullName"> Full Name <p-sortIcon field="fullname"></p-sortIcon></th>
+            <th pSortableColumn="firstName">First Name <p-sortIcon field="firstname"></p-sortIcon>
+            </th>
+            <th pSortableColumn="lastName">Last Name <p-sortIcon field="lastname"></p-sortIcon>
+            </th>
+            <th pSortableColumn="fullName"> Full Name <p-sortIcon field="fullname"></p-sortIcon>
+            </th>
             <th pSortableColumn="action" style="width: 200px"></th>
         </tr>
     </ng-template>
@@ -55,35 +53,35 @@
                 <div class="p-p-3">
                     <p-table [value]="product.localized" dataKey="id">
                         <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn="selectedLanguage.name">Language <p-sortIcon field="selectedLanguage.name"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="Innerfirstname">First Name <p-sortIcon field="Innerfirstname"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="Innerlastname">Last Name <p-sortIcon field="Innerlastname"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="Innerfirstname">Full Name <p-sortIcon field="Innerfirstname"></p-sortIcon>
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-localized>
-                            <tr>
-                                <td>{{localized.language}}</td>
-                                <td>{{localized.firstName}}</td>
-                                <td>{{localized.lastName}}</td>
-                                <td>{{localized.fullName}}</td>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="emptymessage">
-                            <tr>
-                                <td colspan="6">There are no order for this product yet.</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-            </td>
+        <tr>
+            <th pSortableColumn="selectedLanguage.name">Language <p-sortIcon field="selectedLanguage.name"></p-sortIcon>
+            </th>
+            <th pSortableColumn="Innerfirstname">First Name <p-sortIcon field="Innerfirstname"></p-sortIcon>
+            </th>
+            <th pSortableColumn="Innerlastname">Last Name <p-sortIcon field="Innerlastname"></p-sortIcon>
+            </th>
+            <th pSortableColumn="Innerfirstname">Full Name <p-sortIcon field="Innerfirstname"></p-sortIcon>
+            </th>
         </tr>
     </ng-template>
+    <ng-template pTemplate="body" let-localized>
+        <tr>
+            <td>{{localized.language}}</td>
+            <td>{{localized.firstName}}</td>
+            <td>{{localized.lastName}}</td>
+            <td>{{localized.fullName}}</td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="6">There are no order for this product yet.</td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>
+</td>
+</tr>
+</ng-template>
 </p-table>
 
 
@@ -121,17 +119,17 @@
                     <div class="p-field p-col-2">
                         <label for="name">First Name</label>
                         <input type="text" pInputText id="name" [(ngModel)]="users[i].firstname" required autofocus />
+                        <small class="p-invalid" *ngIf="submitted && !users[i].firstname">Name is required.</small>
                     </div>
                     <div class="p-field p-col-2">
                         <label for="name">Last Name</label>
                         <input type="text" pInputText id="name" [(ngModel)]="users[i].lastname" required autofocus />
+                        <small class="p-invalid" *ngIf="submitted && !users[i].lastname">Name is required.</small>
                     </div>
                     <div class="p-field p-col-2">
                         <label for="name">Full Name</label>
                         <span pInputText id="fullname" class="d-block f-height">{{users[i].firstname}}
                             {{users[i].lastname}}</span>
-
-
                     </div>
                     <div class="p-field p-col-3">
                         <label for="name" [style]="{width:'100%'}">&nbsp;</label>
