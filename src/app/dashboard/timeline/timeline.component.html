@@ -1,0 +1,12 @@
+<p-timeline [value]="event" layout="horizontal" align="top">
+    <ng-template pTemplate="marker" let-event>
+        <span class="custom-marker p-shadow-2" [style.backgroundColor]="event.color">
+            <i [ngClass]="event.icon"></i>
+        </span>
+        <div class="p-timeline-event-connector ng-star-inserted"></div>
+    </ng-template>
+    <ng-template pTemplate="content" let-event>
+       {{event.status}}<br/>
+       <small>{{event.date}}</small>
+    </ng-template>
+</p-timeline>

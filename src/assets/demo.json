@@ -31,7 +31,17 @@
                 "ar": {
                     "firstName": "احمد",
                     "lastName": "فوزي",
-                    "fullName": "احمد فوزي"
+                    "fullName": "احمد فوزي"                    
+                },
+                "fn": {
+                    "firstName": "fn",
+                    "lastName": "fnl",
+                    "fullName": "fnfn1"                    
+                },
+                "hi": {
+                    "firstName": "hn",
+                    "lastName": "hn1",
+                    "fullName": "hnhn1"                    
                 }
             }
         }

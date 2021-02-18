@@ -1,0 +1,14 @@
+
+<div class="card overview-box-1 teal w-100">
+   
+<p-card header={{data.header}} class="h-100 d-flex">    
+    <div class="p-grid w-100"> 
+        <div class="p-col-12">            
+                {{data.content}}            
+        </div>
+        <div class="p-col-12  border" [ngClass]= "{'p-lg-12': data.actions.length == 1,'p-lg-6': data.actions.length > 1, 'active-link' : activeClass.action === action.code   }" *ngFor="let action of data.actions; index as i;" (click)= "loadAssetTableLocal({action: action.code, type: data.type, title:data.header })">
+            <span>{{action.name}}</span>  
+        </div>
+    </div>
+</p-card>
+</div>

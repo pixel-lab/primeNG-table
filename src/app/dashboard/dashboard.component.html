@@ -1,0 +1,29 @@
+<div class="p-grid">
+    <div class="p-col-12 p-lg-3" *ngFor="let item of tileContent; index as i">
+        <app-tiles class="h-100 d-flex"  [data]= "item" (LoadAssetTable)="displayCounter($event)"  [ngClass]= "{'green-left': item.type == 'successful','red-left': item.type == 'due', 'yellow-left': item.type == 'pending', 'orange-left': item.type == 'failed' }"></app-tiles>
+    </div>   
+</div>
+<div class="p-grid marrgin-top-50">
+    <div class="p-col-12 p-lg-12">
+        <h2 class="p-heading">{{panelHeading.title}} <span>{{panelHeading.action}}</span></h2>
+    </div>
+    
+    <div class="p-col-12 p-lg-4">
+        <app-asset-bar-chart [bar]="barChart"></app-asset-bar-chart>
+    </div>
+    <div class="p-col-12 p-lg-8">
+        <app-asset-table [asset]="assetTable" (timeLine)="TimelineShow($event)"> </app-asset-table>
+    </div>
+</div>
+<div id="timeline-wrapper">
+<div class="timeline-wrapper" *ngFor="let item of splitObjectKey; index as i">
+    <span class="span-carrot"></span>
+    <app-timeline [event]="splitObject[i]"></app-timeline>
+</div>
+</div>
+<div class="p-grid marrgin-top-50">
+    <div class="p-col-12 p-lg-6">
+        <app-asset-pie [pie]="pieData"></app-asset-pie>
+    </div>
+    
+</div>

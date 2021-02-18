@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Product } from './product';
+import { Assets } from './asset';
 
 @Injectable()
-export class ProductService {
+export class AssetService {
 
     status: string[] = ['OUTOFSTOCK', 'INSTOCK', 'LOWSTOCK'];
 
@@ -46,37 +46,46 @@ export class ProductService {
     getProductsSmall() {
         return this.http.get<any>('assets/products-small.json')
         .toPromise()
-        .then(res => <Product[]>res.data)
+        .then(res => <Assets[]>res.data)
+        .then(data => { return data; });
+    }
+
+    getReload() {
+        return this.http.get<any>('assets/products-small-new.json')
+        .toPromise()
+        .then(res => <Assets[]>res.data)
         .then(data => { return data; });
     }
 
     getProducts() {
         return this.http.get<any>('assets/products.json')
         .toPromise()
-        .then(res => <Product[]>res.data)
+        .then(res => <Assets[]>res.data)
         .then(data => { return data; });
     }
 
     getProductsWithOrdersSmall() {
         return this.http.get<any>('assets/products-orders-small.json')
         .toPromise()
-        .then(res => <Product[]>res.data)
-        .then(data => this.manupulateDate(data));
+        .then(res => <Assets[]>res.data)
+        .then(data => { return data; });
     }
 
-    addProduct(data: Object) {
-        return this.http.get<any>('assets/product-add.json',data)
-        .toPromise()
-        .then(res => <Product[]>res.data)
-        .then(data => data);
+    generatePrduct(): Assets {
+        const product: Assets =  {
+            id: this.generateId(),
+            name: this.generateName(),
+            description: "Product Description",
+            price: this.generatePrice(),
+            quantity: this.generateQuantity(),
+            category: "Product Category",
+            inventoryStatus: this.generateStatus(),
+            rating: this.generateRating()
+        };
+
+        product.image = product.name.toLocaleLowerCase().split(/[ ,]+/).join('-')+".jpg";;
+        return product;
     }
-    editProduct(data: string) {
-        return this.http.get<any>('assets/product-edit.json')
-        .toPromise()
-        .then(res => <Product[]>res.data)
-        .then(data =>  this.manupulateDate(data));
-    }
-    
 
     generateId() {
         let text = "";
@@ -108,22 +117,4 @@ export class ProductService {
     generateRating() {
         return Math.floor(Math.random() * Math.floor(5)+1);
     }
-    manupulateDate(data){
-                    
-            let create = data.map(i => {
-                let local = [];
-                let localized = Object.keys(i["localized"]).forEach(j => {                    
-                    if(j === "en") i = {...i, ...{"firstName": i["localized"][j].firstName, "lastName": i["localized"][j].lastName, "fullName": i["localized"][j].fullName  } }
-                    else local.push({...i["localized"][j], ...{'language': j}})
-                }
-                );
-                i["localized"] = local; 
-                return i;
-            });
-            console.log(create)
-            return create;
-        
-    }
-
-    
 }

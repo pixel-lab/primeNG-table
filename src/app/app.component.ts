@@ -29,27 +29,19 @@ export class AppComponent {
     userDynamic: any = {};
     submitted: boolean;
     productDialog: boolean;
-    setLang = [
-        { name: 'Arabic', code: 'ar' }   
-    ];
-
+    setLang = [{ name: 'Arabic', code: 'ar' }];
     selectedLanguage: Language;
-    constructor(private productService: ProductService) {
-
-    }
+    constructor(private productService: ProductService) {}
     ngOnInit() {
         this.productService.getProductsWithOrdersSmall().then(data =>{
-            this.products = data;
+            this.products = data; // [a,b,c,d,e]
             this.stored = data;
         });
-        this.userDynamic = { firistname: "", lastname: "", language: this.setLang, selectedLanguage:this.setLang[0]  };
-        this.users.push(this.userDynamic);       
+        this.cleanPopup();   
     }
    
     addRow(rowNum: number) {
-        this.userDynamic = { firistname: "", lastname: "", language: this.setLang, selectedLanguage:this.setLang[0]  };
-        this.users.push(this.userDynamic);        
-        console.log(this.users);
+        this.cleanPopup();
         return true;
     }
 
@@ -114,57 +106,37 @@ export class AppComponent {
                 //this.product = { ... this.product, id:data[0].data };
                 this.product = { ... this.product, id:Math.random().toString() };
                 this.products.push(this.product);
-                this.products = this.dataManupulate([...this.products]); 
+                this.products = this.productService.manupulateDate([...this.products]); 
             }  
             else {
                 let manupulateArr = [];
                 this.products = this.products.map(i => {                    
                     if(i.id === this.product.id){                        
                         manupulateArr.push(this.product);
-                        i = this.dataManupulate(manupulateArr)[0];
+                        i = this.productService.manupulateDate(manupulateArr)[0];
                     }
                     return i;
                 });
             }
-            this.userDynamic = { firistname: "", lastname: "", language: this.setLang, selectedLanguage:this.setLang[0]  };
-            this.users=[this.userDynamic];
-            this.product = {};
+            this.submitted = false;
             this.productDialog = false;
+            this.cleanPopup();
+            this.product = {};           
         })
         
     }
     openNew(editable:boolean) {       
         if(!editable){
             this.product = {};
-            if(this.users.length > 0){
-                this.users = [];
-                this.userDynamic = { firistname: "", lastname: "", language: this.setLang, selectedLanguage:this.setLang[0]  };
-                this.users.push(this.userDynamic);
+            if(this.users.length > 0){                
+                this.cleanPopup();
             }
         }         
         this.submitted = false;
         this.productDialog = true;
-    }
-    filterGlobal(value:string){
-        this.products = this.stored;
-        let filter = this.products.filter(i => {
-            debugger;
-           return i.fullName.toLocaleLowerCase().indexOf(value.toLocaleLowerCase()) > -1
-        }); 
-        this.products = filter;
-    }
-   dataManupulate(data){
-       debugger;
-        let create = data.map(i => {
-            let local = [];
-            let localized = Object.keys(i["localized"]).forEach(j => {                    
-                if(j === "en") i = {...i, ...{"firstName": i["localized"][j].firstName, "lastName": i["localized"][j].lastName, "fullName": i["localized"][j].fullName  } }
-                else local.push({...i["localized"][j], ...{'language': j}})
-            }
-            );
-            i["localized"] = local; 
-            return i;
-        });
-        return create;
-   }
+    }    
+       cleanPopup(){
+        this.userDynamic = { firistname: "", lastname: "", language: this.setLang, selectedLanguage:this.setLang[0]  };
+        this.users=[this.userDynamic];
+       }
 }
